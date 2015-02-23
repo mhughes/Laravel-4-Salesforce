@@ -17,7 +17,18 @@ class Salesforce {
                 $wsdl = __DIR__.'/Wsdl/enterprise.wsdl.xml';
             }
 
-			$this->sfh->createConnection($wsdl);
+            $soapOptions = [];
+
+            $context = $configExternal->get("laravel-salesforce::stream_context");
+
+            if($context){
+            	$soapOptions["stream_context"] = stream_context_create($context);
+            }
+
+			$this->sfh->createConnection($wsdl, 
+										$configExternal->get("laravel-salesforce::proxy_options"),
+										$soapOptions
+										);
 
 			$this->sfh->login($configExternal->get('laravel-salesforce::username') , $configExternal->get('laravel-salesforce::password') . $configExternal->get('laravel-salesforce::token'));
 			return $this;

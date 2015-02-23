@@ -14,4 +14,6 @@ return array(
     'password' => '',
     'token' => '',
     'wsdl' => app_path() . '/wsdl/enterprise.sandbox.wsdl.xml',
+    'stream_context' => [],
+    "proxy_options" => []
 );

@@ -1,7 +1,9 @@
-Laravel 4 Salesforce
+Laravel 4 Salesforce  with better SSL support 
 ====================
 
 This Laravel 4 package provides an interface for using [Salesforce CRM](http://www.salesforce.com/) through its SOAP API.
+
+The only changes, allow setting a stream context to the SoapClient for better ssl handling, and flexibility.
 
 Installation
 ------------
@@ -10,7 +12,7 @@ Begin by installing this package through Composer. Edit your project's `composer
 
     "require": {
         "laravel/framework": "4.*",
-        "davispeixoto/laravel-salesforce": "2.0.*"
+        "mhughes/laravel-salesforce": "2.0.*"
     }
 
 Next, update Composer from the Terminal:
