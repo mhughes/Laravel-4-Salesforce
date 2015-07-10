@@ -10,9 +10,9 @@ return array(
     */
 
     // production
-    'username'    => '',
-	'password' => '',
-	'token' => '',
+    'username' => '',
+    'password' => '',
+    'token' => '',
     'wsdl' => app_path() . '/wsdl/enterprise.wsdl.xml',
     'stream_context' => [],
     "proxy_options" => []
