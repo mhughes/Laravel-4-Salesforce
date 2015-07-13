@@ -21,6 +21,10 @@ class Salesforce
      */
     public $sfh;
 
+    private $username;
+    private $password;
+    private $token;
+
     /**
      * The constructor.
      *
@@ -46,27 +50,30 @@ class Salesforce
             $context = $configExternal->get("laravel-salesforce::stream_context");
 
             if($context){
-            	$soapOptions["stream_context"] = stream_context_create($context);
+                $soapOptions["stream_context"] = stream_context_create($context);
             }
 
-			$this->sfh->createConnection($wsdl,
-										$configExternal->get("laravel-salesforce::proxy_options"),
-										$soapOptions
-										);
+            $this->sfh->createConnection($wsdl,
+                                        $configExternal->get("laravel-salesforce::proxy_options"),
+                                        $soapOptions
+                                        );
 
-            $username = $configExternal->get('laravel-salesforce::username');
-            $password = $configExternal->get('laravel-salesforce::password');
-            $token = $configExternal->get('laravel-salesforce::token');
-
-            $this->sfh->login($username, $password . $token);
+            $this->username = $configExternal->get('laravel-salesforce::username');
+            $this->password = $configExternal->get('laravel-salesforce::password');
+            $this->token = $configExternal->get('laravel-salesforce::token');
 
         } catch (Exception $e) {
-            throw new SalesforceException('Exception at Constructor' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
+            throw new \Exception('Exception at Constructor' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
         }
     }
 
     public function __call($method, $args)
     {
+        try{
+            $login_result = $this->sfh->login($this->username, $this->password . $this->token);
+        } catch (Exception $e) {
+            throw new \Exception('Exception at Constructor' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
+        }
         return call_user_func_array(array($this->sfh, $method), $args);
     }
 
